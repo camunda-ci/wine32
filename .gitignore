@@ -1,0 +1,8 @@
+*.rpm
+*.downloaded
+*.tgz
+*.tar.gz
+Gemfile.lock
+.vagrant
+/public
+/release
