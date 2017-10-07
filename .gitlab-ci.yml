@@ -1,9 +1,6 @@
 variables:
-  #GIT_SSL_NO_VERIFY: "1"
-  #GIT_STRATEGY: clone
   LC_ALL: en_US.UTF-8
-  REPO_URL_BASE: https://harbottle.gitlab.io/ergel
-  REPO_FOLDER: 7/x86_64/
+  REPO_URL_BASE: https://harbottle.gitlab.io/wine32
   GPG_NAME: Richard Grainger
   GPG_FILE_NAME: harbottle-ergel
   GPG_KEY_ID: 540ecf1b
@@ -40,42 +37,29 @@ variables:
     -----END PGP PUBLIC KEY BLOCK-----
 
 stages:
-  - bootstrap
-  - build
-  - test
+  - build:rpm
+  - build:web
   - deploy
 
-cache:
-  untracked: false
-
-bootstrap:
-  stage: bootstrap
-  image: docker
-  services:
-    - docker:dind
+build:rpm:
+  stage: build:rpm
+  image: harbottle/wine32:build_rpm
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build --pull --cache-from $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:latest
-
-build:
-  stage: build
-  image: $CI_REGISTRY_IMAGE:latest
-  script:
-  #- bundle install --quiet && bundle exec fpm -s gem -t rpm --debug --debug-workspace fpm
-  - bundle install --quiet && rake build
+  - . ./build_rpm.sh
   artifacts:
     paths:
-    - '*.rpm'
     - public
     expire_in: 1 week
-  
-test:
-  stage: test
-  image: $CI_REGISTRY_IMAGE:latest
+
+build:web:
+  stage: build:web
+  image: harbottle/wine32:build_web
   script:
-  - bundle install --quiet && rake test
+  - . ./build_web.sh
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 week
 
 pages:
   stage: deploy
