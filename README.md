@@ -14,7 +14,7 @@ courtesy of [GitLab Pages](https://pages.gitlab.io/).
 
 ```bash
 # Install the repo
-sudo yum -y install https://harbottle.gitlab.io/wine32/7/i686/wine32-release.rpm
+sudo yum -y install https://harbottle.gitlab.io/wine32/7/i386/wine32-release.rpm
 
 # Install Wine 32 bit
 sudo yum -y install wine.i686
