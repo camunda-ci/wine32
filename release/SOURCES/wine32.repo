@@ -4,3 +4,10 @@ baseurl=https://harbottle.gitlab.io/wine32/7/i386/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-harbottle-wine32
 enabled=1
+
+[wine32-source]
+name=Wine 32 bit source packages for Enterprise Linux
+baseurl=https://harbottle.gitlab.io/wine32/7/SRPMS/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-harbottle-wine32
+enabled=0

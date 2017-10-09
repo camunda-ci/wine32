@@ -55,6 +55,12 @@ mkdir -p public/7/i386
 mv set*/rpmbuild/RPMS/*/*.rpm public/7/i386
 mv *release*.rpm  public/7/i386
 
+# Move SRPMs to public dir
+mkdir -p public/7/SRPMS
+mv set*/*.src.rpm public/7/SRPMS
+mv set*/rpmbuild/SRPMS/*.src.rpm public/7/SRPMS
+mv release/SRPMS/*.src.rpm public/7/SRPMS
+
 # Sign RPM files
 echo -e "%_signature gpg" >> $HOME/.rpmmacros
 echo -e "%_gpg_path /root/.gnupg" >> $HOME/.rpmmacros
@@ -79,5 +85,18 @@ EOD
 )
 done
 
+for f in public/7/SRPMS/*.src.rpm
+do
+  echo "GPG signing $f..."
+expect <(cat <<EOD
+spawn rpm --resign $f
+expect -exact "Enter pass phrase: "
+send -- "$GPG_PASS_PHRASE\r"
+expect eof
+EOD
+)
+done
+
 # Create yum repo
 createrepo public/7/i386
+createrepo public/7/SRPMS

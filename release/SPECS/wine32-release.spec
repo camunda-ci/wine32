@@ -1,6 +1,6 @@
 Name:           wine32-release
 Version:        7
-Release:        1.el7
+Release:        2.el7
 Summary:        Wine 32 bit packages for Enterprise Linux repository configuration
 Group:          System Environment/Base
 License:        MIT
@@ -39,5 +39,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Mon Oct 9 2017 <grainger@gmail.com> - 7-2.el7
+- Add SRPM repo
+
 * Sat Oct 7 2017 <grainger@gmail.com> - 7-1.el7
 - Initial packaging
